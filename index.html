@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CRM y Sistema de Gestión Integral para LICORES MEGA - Control de Clientes, Catálogo de 7 Dimensiones, Pedidos y Facturación">
+  <meta name="theme-color" content="#f4060e">
+  <title>LICORES MEGA - CRM Licorera</title>
+  <link rel="icon" type="image/png" href="assets/isotipo.png">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: {
+              950: '#08080a',
+              900: '#0e0e12',
+              850: '#14141a',
+              800: '#1c1c24',
+              700: '#282834',
+              600: '#3a3a4c'
+            },
+            mega: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#ff4a53',
+              500: '#f4060e',
+              600: '#d3050c',
+              700: '#b9040a',
+              800: '#8a0005',
+              900: '#5e0003',
+              950: '#380001'
+            },
+            amber: {
+              400: '#ff4a53',
+              500: '#f4060e',
+              600: '#d3050c',
+              700: '#b9040a',
+              800: '#8a0005',
+              900: '#5e0003'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Estilos Personalizados Carmesí & Obsidiana -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-obsidian-950 text-gray-200 antialiased min-h-screen flex flex-col md:flex-row">
+
+  <!-- ========================================================================
+       BARRA LATERAL / SIDEBAR DE NAVEGACIÓN
+       ======================================================================== -->
+  <aside id="sidebar" class="w-full md:w-64 bg-obsidian-900 border-r border-subtle flex flex-col justify-between shrink-0 z-40 transition-all duration-300">
+    <!-- Encabezado Sidebar -->
+    <div>
+      <div class="h-20 px-5 flex items-center justify-between border-b border-subtle bg-black/30">
+        <a href="#" data-tab="dashboard" class="flex items-center gap-2 group">
+          <img src="assets/logo.png" alt="LICORES MEGA" width="74" height="40" class="h-10 max-h-12 w-auto object-contain transition-transform group-hover:scale-105" loading="eager" fetchpriority="high">
+        </a>
+        <!-- Botón Móvil Cerrar -->
+        <button id="mobile-close-sidebar" class="md:hidden text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Menú de Navegación -->
+      <nav class="p-4 space-y-1.5" id="nav-links">
+        <button data-tab="dashboard" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors text-white bg-mega-500/20 border border-mega-500/40 shadow-sm shadow-mega-500/15">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-mega-400"></i>
+          <span>Dashboard & Métricas</span>
+        </button>
+
+        <button data-tab="clients" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-gray-400 hover:text-white hover:bg-obsidian-800">
+          <i data-lucide="users" class="w-4 h-4 text-mega-500/70"></i>
+          <span>Clientes (B2B / B2C)</span>
+        </button>
+
+        <button data-tab="products" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-gray-400 hover:text-white hover:bg-obsidian-800">
+          <i data-lucide="glass-water" class="w-4 h-4 text-mega-500/70"></i>
+          <div class="flex items-center justify-between w-full">
+            <span>Catálogo & Inventario</span>
+            <span class="text-[10px] bg-mega-500/20 text-mega-400 px-1.5 py-0.5 rounded font-bold">7 Cat.</span>
+          </div>
+        </button>
+
+        <button data-tab="orders" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-gray-400 hover:text-white hover:bg-obsidian-800">
+          <i data-lucide="shopping-bag" class="w-4 h-4 text-mega-500/70"></i>
+          <span>Pedidos & Ventas</span>
+        </button>
+
+        <button data-tab="tickets" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-gray-400 hover:text-white hover:bg-obsidian-800">
+          <i data-lucide="life-buoy" class="w-4 h-4 text-mega-500/70"></i>
+          <span>Soporte & Post-Venta</span>
+        </button>
+
+        <button data-tab="settings" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-gray-400 hover:text-white hover:bg-obsidian-800">
+          <i data-lucide="hard-drive" class="w-4 h-4 text-mega-500/70"></i>
+          <span>Respaldos & Vercel</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Pie del Sidebar: Info de Licorera y Respaldos -->
+    <div class="p-4 border-t border-subtle bg-obsidian-950/60">
+      <div class="glass-panel p-3 rounded-xl space-y-2 border-subtle">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="assets/isotipo.png" alt="Mega Isotipo" width="16" height="16" class="w-4 h-4 object-contain">
+            <span class="text-xs font-bold text-white tracking-wide">LICORES MEGA</span>
+          </div>
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Online
+          </span>
+        </div>
+        <p class="text-[11px] text-gray-400 leading-tight">Sistema de Gestión & Bodega B2B/B2C</p>
+        <button id="btn-quick-config-settings" class="w-full text-center text-xs text-mega-400 hover:text-mega-300 hover:underline pt-1">
+          Gestionar Respaldos &rarr;
+        </button>
+        <div class="pt-2 border-t border-subtle flex items-center justify-between text-[11px]">
+          <a href="landing.html" class="text-gray-400 hover:text-white flex items-center gap-1 transition-colors">
+            <i data-lucide="sparkles" class="w-3 h-3 text-mega-400"></i>
+            <span>Ver Landing Page</span>
+          </a>
+          <a href="landing.html" onclick="localStorage.removeItem('crm_current_user');" class="text-mega-400 hover:text-mega-300 flex items-center gap-1 transition-colors" title="Cerrar sesión">
+            <i data-lucide="log-out" class="w-3 h-3"></i>
+            <span>Salir</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       CONTENEDOR PRINCIPAL
+       ======================================================================== -->
+  <main class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+    
+    <!-- Topbar Header -->
+    <header class="h-20 px-6 border-b border-subtle bg-obsidian-900/90 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="mobile-open-sidebar" class="md:hidden text-gray-400 hover:text-white p-2 rounded-lg bg-obsidian-800">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <img src="assets/isotipo.png" alt="Licores Mega" width="28" height="28" class="w-7 h-7 object-contain md:hidden">
+        <div>
+          <h2 id="view-title" class="text-xl font-bold text-white tracking-tight">Panel de Control & Dashboard</h2>
+          <p id="view-subtitle" class="text-xs text-gray-400">Resumen operativo de inventario, ventas y clientes de la licorera</p>
+        </div>
+      </div>
+
+      <!-- Acciones de Cabecera -->
+      <div class="flex items-center gap-3">
+        <!-- Badge Corporativo Licores Mega -->
+        <div class="hidden xl:flex items-center gap-2 bg-obsidian-850 px-3 py-1.5 rounded-xl border border-subtle">
+          <img src="assets/isotipo.png" alt="Licores Mega" width="20" height="20" class="w-5 h-5 object-contain">
+          <span class="text-xs font-bold text-white tracking-wider">LICORES MEGA</span>
+        </div>
+
+        <!-- Selector de Moneda y Tasa IVA -->
+        <div class="hidden sm:flex items-center gap-2 bg-obsidian-850 px-3 py-1.5 rounded-xl border border-subtle text-xs">
+          <label class="text-gray-400">Moneda:</label>
+          <select id="global-currency-select" class="bg-transparent text-mega-400 font-semibold focus:outline-none cursor-pointer">
+            <option value="EUR" class="bg-obsidian-900 text-white">EUR (€)</option>
+            <option value="USD" class="bg-obsidian-900 text-white">USD ($)</option>
+          </select>
+          <span class="text-gray-600">|</span>
+          <label class="text-gray-400">IVA:</label>
+          <select id="global-vat-select" class="bg-transparent text-mega-400 font-semibold focus:outline-none cursor-pointer">
+            <option value="21" class="bg-obsidian-900 text-white">21%</option>
+            <option value="15" class="bg-obsidian-900 text-white">15%</option>
+            <option value="12" class="bg-obsidian-900 text-white">12%</option>
+            <option value="0" class="bg-obsidian-900 text-white">0%</option>
+          </select>
+        </div>
+
+        <!-- Enlace a la Landing Page -->
+        <a href="landing.html" class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white bg-obsidian-850 hover:bg-obsidian-800 border border-subtle transition-all" title="Ver Landing Page de Registro e Intro">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-mega-400"></i>
+          <span>Landing / Intro</span>
+        </a>
+
+        <!-- Botón Rápido de Nuevo Pedido -->
+        <button id="btn-quick-new-order" class="mega-button px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">Nuevo Pedido</span>
+        </button>
+
+        <!-- Perfil de Usuario Logueado & Cerrar Sesión -->
+        <div id="topbar-user-profile" class="flex items-center gap-2 bg-obsidian-850 pl-2.5 pr-1.5 py-1.5 rounded-xl border border-subtle">
+          <div class="w-7 h-7 rounded-lg bg-mega-500/20 border border-mega-500/40 text-mega-400 font-bold text-xs flex items-center justify-center shrink-0" id="topbar-user-avatar">
+            CM
+          </div>
+          <div class="hidden md:block text-left pr-1">
+            <p class="text-xs font-semibold text-white leading-none truncate max-w-[120px]" id="topbar-user-name">Carlos Mendoza</p>
+            <p class="text-[10px] text-gray-400 leading-tight truncate max-w-[120px]" id="topbar-user-role">Administrador</p>
+          </div>
+          <button id="btn-logout" class="p-1.5 rounded-lg text-gray-400 hover:text-mega-400 hover:bg-obsidian-800 transition-colors" title="Cerrar Sesión e ir a la Landing de Registro">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ÁREA DINÁMICA DE VISTAS -->
+    <div class="p-6 space-y-6 max-w-7xl w-full mx-auto">
+
+      <!-- ====================================================================
+           VISTA 1: DASHBOARD & MÉTRICAS DE LICORERA
+           ==================================================================== -->
+      <section id="view-dashboard" class="tab-content active space-y-6">
+        
+        <!-- Tarjetas de KPIs Ejecutivos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- KPI 1: Ventas Totales -->
+          <div class="bg-obsidian-850 p-5 rounded-2xl border border-subtle shadow-card relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Ventas Período</span>
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                <i data-lucide="trending-up" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <p id="kpi-total-sales" class="text-2xl font-bold text-white mt-3 font-serif">€0.00</p>
+            <div class="flex items-center gap-1.5 mt-2 text-xs text-emerald-400">
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+              <span id="kpi-sales-count">0 pedidos procesados</span>
+            </div>
+          </div>
+
+          <!-- KPI 2: Clientes Activos (Mayoristas vs Minoristas) -->
+          <div class="bg-obsidian-850 p-5 rounded-2xl border border-subtle shadow-card relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Clientes (B2B/B2C)</span>
+              <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                <i data-lucide="users" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <p id="kpi-total-clients" class="text-2xl font-bold text-white mt-3 font-serif">0</p>
+            <p id="kpi-clients-breakdown" class="text-xs text-gray-400 mt-2">0 Mayoristas · 0 Minoristas</p>
+          </div>
+
+          <!-- KPI 3: Licores en Catálogo & Valor de Inventario -->
+          <div class="bg-obsidian-850 p-5 rounded-2xl border border-subtle shadow-card relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Licores / SKUs</span>
+              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <i data-lucide="wine" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <p id="kpi-total-products" class="text-2xl font-bold text-white mt-3 font-serif">0</p>
+            <p id="kpi-stock-units" class="text-xs text-amber-400 mt-2">0 unidades en bodega</p>
+          </div>
+
+          <!-- KPI 4: Alertas de Stock Mínimo -->
+          <div class="bg-obsidian-850 p-5 rounded-2xl border border-subtle shadow-card relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Stock Mínimo Crítico</span>
+              <div class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center">
+                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <p id="kpi-stock-alerts" class="text-2xl font-bold text-rose-400 mt-3 font-serif">0</p>
+            <p class="text-xs text-gray-400 mt-2">Requieren reposición inmediata</p>
+          </div>
+        </div>
+
+        <!-- Fila de Gráficos Analíticos -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Gráfico 1: Ventas por Canal (Local, WhatsApp, Delivery, etc.) -->
+          <div class="bg-obsidian-850 p-6 rounded-2xl border border-subtle shadow-card">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                <i data-lucide="pie-chart" class="w-4 h-4 text-amber-400"></i>
+                Ventas por Canal
+              </h3>
+              <span class="text-xs text-gray-500">Canales del PDF</span>
+            </div>
+            <div class="h-64 relative flex items-center justify-center">
+              <canvas id="chart-channels"></canvas>
+            </div>
+          </div>
+
+          <!-- Gráfico 2: Top Licores por Rentabilidad y Margen -->
+          <div class="bg-obsidian-850 p-6 rounded-2xl border border-subtle shadow-card lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                <i data-lucide="bar-chart-3" class="w-4 h-4 text-amber-400"></i>
+                Rentabilidad y Margen (%) por Licor
+              </h3>
+              <span class="text-xs text-gray-500">Métricas clave</span>
+            </div>
+            <div class="h-64 relative">
+              <canvas id="chart-profitability"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla Rápida: Licores en Alerta de Stock Mínimo & Pedidos Recientes -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Licores que requieren Reabastecimiento -->
+          <div class="bg-obsidian-850 p-6 rounded-2xl border border-subtle shadow-card">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                <i data-lucide="alert-octagon" class="w-4 h-4 text-rose-400"></i>
+                Alertas de Stock en Bodega (Stock &le; Mínimo)
+              </h3>
+              <button onclick="window.crmApp.switchTab('products')" class="text-xs text-amber-400 hover:underline">Ver catálogo</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left crm-table">
+                <thead>
+                  <tr>
+                    <th>SKU / Licor</th>
+                    <th>Disponible</th>
+                    <th>Mínimo</th>
+                    <th>Ubicación</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-stock-alerts-tbody">
+                  <!-- Se llena dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tickets de Soporte Abiertos / En Proceso -->
+          <div class="bg-obsidian-850 p-6 rounded-2xl border border-subtle shadow-card">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                <i data-lucide="life-buoy" class="w-4 h-4 text-amber-400"></i>
+                Tickets de Soporte Activos
+              </h3>
+              <button onclick="window.crmApp.switchTab('tickets')" class="text-xs text-amber-400 hover:underline">Ver todos</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left crm-table">
+                <thead>
+                  <tr>
+                    <th>ID / Cliente</th>
+                    <th>Asunto</th>
+                    <th>Prioridad</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-tickets-tbody">
+                  <!-- Se llena dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VISTA 2: GESTIÓN DE CLIENTES (B2B / B2C)
+           ==================================================================== -->
+      <section id="view-clients" class="tab-content space-y-6">
+        <!-- Barra de Búsqueda y Filtros de Clientes -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-obsidian-850 p-4 rounded-2xl border border-subtle">
+          <div class="flex flex-1 items-center gap-3">
+            <div class="relative flex-1 max-w-md">
+              <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="clients-search-input" placeholder="Buscar por nombre, NIF/CIF o contacto..." class="w-full pl-9 pr-10 py-2 bg-obsidian-900 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-mega-500">
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-block pointer-events-none"><kbd class="shortcut-badge">/</kbd></span>
+            </div>
+            
+            <select id="clients-segment-filter" class="bg-obsidian-900 border border-subtle rounded-xl px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-mega-500">
+              <option value="ALL">Todos los Segmentos</option>
+              <option value="Mayorista">Mayoristas</option>
+              <option value="Minorista">Minoristas</option>
+              <option value="Online">Online / Delivery</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <button id="btn-export-clients-csv" type="button" class="csv-export-button" title="Descargar Clientes en formato Excel / CSV">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-400"></i>
+              <span>Exportar CSV</span>
+            </button>
+            <button id="btn-open-new-client-modal" class="mega-button px-4 py-2 rounded-xl text-sm flex items-center justify-center gap-2">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>Nuevo Cliente</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla de Clientes -->
+        <div class="bg-obsidian-850 rounded-2xl border border-subtle shadow-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left crm-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Razón Social / Nombre</th>
+                  <th>NIF/CIF / Identidad</th>
+                  <th>Segmento</th>
+                  <th>Contacto & Email</th>
+                  <th class="text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="clients-table-tbody">
+                <!-- Se inyecta dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VISTA 3: CATÁLOGO DE LICORES & INVENTARIO (7 CATEGORÍAS DEL PDF)
+           ==================================================================== -->
+      <section id="view-products" class="tab-content space-y-6">
+        <!-- Filtros y Controles de Producto -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-obsidian-850 p-4 rounded-2xl border border-subtle">
+          <div class="flex flex-wrap items-center gap-3 flex-1">
+            <div class="relative min-w-[240px] flex-1">
+              <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="products-search-input" placeholder="Buscar por SKU, nombre, marca o código..." class="w-full pl-9 pr-10 py-2 bg-obsidian-900 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-mega-500">
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-block pointer-events-none"><kbd class="shortcut-badge">/</kbd></span>
+            </div>
+
+            <select id="products-category-filter" class="bg-obsidian-900 border border-subtle rounded-xl px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-mega-500">
+              <option value="ALL">Todas las Categorías</option>
+              <option value="Whisky">Whisky</option>
+              <option value="Vino">Vinos</option>
+              <option value="Cerveza">Cervezas Artesanales</option>
+              <option value="Ginebra">Ginebra</option>
+              <option value="Tequila">Tequila & Mezcal</option>
+              <option value="Ron">Ron</option>
+              <option value="Vodka">Vodka</option>
+            </select>
+
+            <select id="products-stock-filter" class="bg-obsidian-900 border border-subtle rounded-xl px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-mega-500">
+              <option value="ALL">Todos los Stocks</option>
+              <option value="LOW">Stock Bajo (&le; Mínimo)</option>
+              <option value="OK">En Stock Óptimo</option>
+            </select>
+
+            <select id="products-rotation-filter" class="bg-obsidian-900 border border-subtle rounded-xl px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-mega-500">
+              <option value="ALL">Cualquier Rotación</option>
+              <option value="Alta">Rotación Alta</option>
+              <option value="Media">Rotación Media</option>
+              <option value="Baja">Rotación Baja</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <!-- Alternador de vista: Tarjetas vs Tabla -->
+            <div class="bg-obsidian-900 p-1 rounded-xl border border-subtle flex items-center">
+              <button id="btn-view-cards" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-white bg-mega-500/20 text-mega-400 border border-mega-500/30">
+                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+              </button>
+              <button id="btn-view-table" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-400 hover:text-white">
+                <i data-lucide="list" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <button id="btn-export-products-csv" type="button" class="csv-export-button" title="Descargar Catálogo Completo en formato Excel / CSV">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-400"></i>
+              <span>Exportar CSV</span>
+            </button>
+
+            <button id="btn-open-new-product-modal" class="mega-button px-4 py-2 rounded-xl text-sm flex items-center gap-2">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Nuevo Licor</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor en Modo Cuadrícula de Tarjetas (Default) -->
+        <div id="products-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Se inyecta dinámicamente con las 7 categorías accesibles -->
+        </div>
+
+        <!-- Contenedor en Modo Tabla (Oculto inicialmente) -->
+        <div id="products-table-container" class="hidden bg-obsidian-850 rounded-2xl border border-subtle shadow-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left crm-table">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Licor / Marca</th>
+                  <th>Categoría</th>
+                  <th>Grados / Vol</th>
+                  <th>P. Venta</th>
+                  <th>Costo</th>
+                  <th>Margen</th>
+                  <th>Stock Disp.</th>
+                  <th>Rotación</th>
+                  <th class="text-right">Ficha (7 Cat.)</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-tbody">
+                <!-- Se inyecta dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VISTA 4: PEDIDOS & FACTURACIÓN (FORMULARIO DEL PDF)
+           ==================================================================== -->
+      <section id="view-orders" class="tab-content space-y-6">
+        <!-- Filtros y Botón de Pedidos -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-obsidian-850 p-4 rounded-2xl border border-subtle">
+          <div class="flex flex-1 items-center gap-3">
+            <div class="relative flex-1 max-w-md">
+              <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="orders-search-input" placeholder="Buscar por # pedido, cliente o SKU..." class="w-full pl-9 pr-10 py-2 bg-obsidian-900 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-mega-500">
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-block pointer-events-none"><kbd class="shortcut-badge">/</kbd></span>
+            </div>
+
+            <select id="orders-status-filter" class="bg-obsidian-900 border border-subtle rounded-xl px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-mega-500">
+              <option value="ALL">Todos los Estados</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Enviado">Enviado</option>
+              <option value="Completo">Completo</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <button id="btn-export-orders-csv" type="button" class="csv-export-button" title="Descargar Pedidos en formato Excel / CSV">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-400"></i>
+              <span>Exportar CSV</span>
+            </button>
+            <button id="btn-open-new-order-modal" class="mega-button px-4 py-2 rounded-xl text-sm flex items-center justify-center gap-2">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Nuevo Pedido</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabla de Pedidos -->
+        <div class="bg-obsidian-850 rounded-2xl border border-subtle shadow-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left crm-table">
+              <thead>
+                <tr>
+                  <th>ID Pedido</th>
+                  <th>Fecha / Hora</th>
+                  <th>Cliente</th>
+                  <th>Licores / Detalles</th>
+                  <th>Total sin IVA</th>
+                  <th>IVA</th>
+                  <th>Total con IVA</th>
+                  <th>Estado</th>
+                  <th>Forma Pago</th>
+                  <th class="text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-tbody">
+                <!-- Inyección dinámica -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VISTA 5: TICKETS DE SOPORTE & ATENCIÓN POST-VENTA
+           ==================================================================== -->
+      <section id="view-tickets" class="tab-content space-y-6">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-obsidian-850 p-4 rounded-2xl border border-subtle">
+          <div class="flex flex-1 items-center gap-3">
+            <div class="relative flex-1 max-w-md">
+              <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="tickets-search-input" placeholder="Buscar por ticket, cliente o asunto..." class="w-full pl-9 pr-10 py-2 bg-obsidian-900 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-mega-500">
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-block pointer-events-none"><kbd class="shortcut-badge">/</kbd></span>
+            </div>
+
+            <select id="tickets-status-filter" class="bg-obsidian-900 border border-subtle rounded-xl px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-mega-500">
+              <option value="ALL">Todos los Estados</option>
+              <option value="Abierto">Abierto</option>
+              <option value="En Proceso">En Proceso</option>
+              <option value="Cerrado">Cerrado</option>
+            </select>
+          </div>
+
+          <button id="btn-open-new-ticket-modal" class="mega-button px-4 py-2 rounded-xl text-sm flex items-center justify-center gap-2">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>Nuevo Ticket</span>
+          </button>
+        </div>
+
+        <!-- Tabla de Tickets -->
+        <div class="bg-obsidian-850 rounded-2xl border border-subtle shadow-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left crm-table">
+              <thead>
+                <tr>
+                  <th>ID Ticket</th>
+                  <th>Fecha/Hora</th>
+                  <th>Cliente</th>
+                  <th>Asunto & Descripción</th>
+                  <th>Estado</th>
+                  <th>Prioridad</th>
+                  <th>Asignado a</th>
+                  <th>Resolución</th>
+                  <th class="text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tickets-table-tbody">
+                <!-- Se inyecta dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VISTA 6: RESPALDOS DE DATOS & DESPLIEGUE EN VERCEL
+           ==================================================================== -->
+      <section id="view-settings" class="tab-content space-y-6">
+        <!-- Tarjeta de Despliegue en Vercel & Respaldo Local -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Despliegue en Vercel -->
+          <div class="bg-obsidian-850 p-6 rounded-2xl border border-subtle shadow-card space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-white/10 text-white flex items-center justify-center">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z"/></svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">Despliegue Continuo en Vercel</h4>
+                <p class="text-xs text-gray-400">Listo para publicar en producción</p>
+              </div>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">
+              El repositorio ya cuenta con el archivo <code class="text-amber-400 bg-obsidian-900 px-1 py-0.5 rounded">vercel.json</code> preconfigurado para enrutamiento SPA y optimización de entrega estática por CDN global.
+            </p>
+            <div class="p-3 bg-obsidian-900 rounded-xl border border-subtle text-xs font-mono text-gray-300">
+              vercel deploy --prod
+            </div>
+          </div>
+
+          <!-- Respaldo y Restauración de Datos -->
+          <div class="bg-obsidian-850 p-6 rounded-2xl border border-subtle shadow-card space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <i data-lucide="hard-drive" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white">Respaldos y Portabilidad de Datos</h4>
+                <p class="text-xs text-gray-400">Descarga o restaura tu base de datos en JSON</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2.5 pt-1">
+              <button id="btn-export-json" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-obsidian-800 text-white hover:bg-obsidian-700 border border-subtle flex items-center gap-1.5">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Descargar Copia JSON</span>
+              </button>
+
+              <label class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-obsidian-800 text-white hover:bg-obsidian-700 border border-subtle flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="upload" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span>Importar JSON</span>
+                <input type="file" id="input-import-json" accept=".json" class="hidden">
+              </label>
+
+              <button id="btn-reset-data" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:bg-rose-500/10 border border-rose-500/20 flex items-center gap-1.5 ml-auto">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                <span>Restablecer Datos PDF</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       MODAL 1: FORMULARIO DE CLIENTE (B2B / B2C)
+       ======================================================================== -->
+  <div id="modal-client" class="modal-overlay hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="modal-content bg-obsidian-900 border border-mega w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden my-8">
+      <div class="px-6 py-4 border-b border-subtle flex items-center justify-between bg-obsidian-850">
+        <div class="flex items-center gap-2.5">
+          <img src="assets/isotipo.png" alt="Mega" class="w-6 h-6 object-contain">
+          <h3 id="modal-client-title" class="font-bold text-white text-base">Registrar Nuevo Cliente</h3>
+        </div>
+        <button type="button" class="close-modal text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-client" class="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+        <input type="hidden" id="client-form-id">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Nombre / Razón Social -->
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Nombre o Razón Social *</label>
+            <input type="text" id="client-nombre" required placeholder="Ej: Distribuidora La Luz S.A. o María Pérez" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+          </div>
+
+          <!-- NIF / CIF / Identidad -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">NIF / CIF / Identidad (RUC) *</label>
+            <input type="text" id="client-nif" required placeholder="Ej: B12345678" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+          </div>
+
+          <!-- Fecha de Nacimiento (con Validación de Mayoría de Edad) -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Fecha de Nacimiento * (Verificación +18)</label>
+            <input type="date" id="client-fecha-nacimiento" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            <div id="age-verification-badge" class="text-[11px] mt-1 font-semibold text-gray-400">Ingresa fecha para verificar edad legal de compra</div>
+          </div>
+
+          <!-- Segmento Comercial -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Segmento *</label>
+            <select id="client-segmento" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+              <option value="Mayorista">Mayorista (B2B)</option>
+              <option value="Minorista">Minorista (B2C)</option>
+              <option value="Online">Online / Delivery</option>
+            </select>
+          </div>
+
+          <!-- Contacto Principal -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Contacto Principal</label>
+            <input type="text" id="client-contacto" placeholder="Ej: Juan Gómez - 987654321" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Email</label>
+            <input type="email" id="client-email" placeholder="contacto@example.com" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+          </div>
+
+          <!-- Teléfono -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Teléfono</label>
+            <input type="text" id="client-telefono" placeholder="+34 600 123 456" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+          </div>
+
+          <!-- Dirección -->
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Dirección de Despacho</label>
+            <input type="text" id="client-direccion" placeholder="Calle Falsa 123, Ciudad" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+          </div>
+
+          <!-- Notas Internas -->
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Notas Internas (Histórico del cliente, acuerdos)</label>
+            <textarea id="client-notas" rows="3" placeholder="Histórico de visitas, preferencias de licor, eventos especiales..." class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-subtle">
+          <button type="button" class="close-modal px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white bg-obsidian-800">
+            Cancelar
+          </button>
+          <button type="submit" class="gold-button px-5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Guardar Cliente</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: FICHA DE LICOR / PRODUCTO (LAS 7 CATEGORÍAS DEL PDF)
+       ======================================================================== -->
+  <div id="modal-product" class="modal-overlay hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="modal-content bg-obsidian-900 border border-mega w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden my-6">
+      <div class="px-6 py-4 border-b border-subtle flex items-center justify-between bg-obsidian-850">
+        <div class="flex items-center gap-2.5">
+          <img src="assets/isotipo.png" alt="Mega" class="w-7 h-7 object-contain">
+          <div>
+            <h3 id="modal-product-title" class="font-bold text-white text-base">Ficha Técnica de Licor</h3>
+            <p class="text-[11px] text-gray-400">Estructura organizada según las 7 categorías del Informe de la Licorera</p>
+          </div>
+        </div>
+        <button type="button" class="close-modal text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Navegación por pestañas de las 7 Categorías del PDF -->
+      <div class="flex overflow-x-auto border-b border-subtle bg-obsidian-950/60 px-4 scrollbar-none" id="product-category-tabs">
+        <button type="button" data-ptab="c1" class="ptab-btn px-3.5 py-2.5 text-xs font-semibold text-amber-400 border-b-2 border-amber-400 whitespace-nowrap">
+          1. Identificación
+        </button>
+        <button type="button" data-ptab="c2" class="ptab-btn px-3.5 py-2.5 text-xs font-semibold text-gray-400 hover:text-white whitespace-nowrap">
+          2. Características
+        </button>
+        <button type="button" data-ptab="c3" class="ptab-btn px-3.5 py-2.5 text-xs font-semibold text-gray-400 hover:text-white whitespace-nowrap">
+          3. Comercialización
+        </button>
+        <button type="button" data-ptab="c4" class="ptab-btn px-3.5 py-2.5 text-xs font-semibold text-gray-400 hover:text-white whitespace-nowrap">
+          4. Inventario
+        </button>
+        <button type="button" data-ptab="c5" class="ptab-btn px-3.5 py-2.5 text-xs font-semibold text-gray-400 hover:text-white whitespace-nowrap">
+          5. Ventas
+        </button>
+        <button type="button" data-ptab="c6" class="ptab-btn px-3.5 py-2.5 text-xs font-semibold text-gray-400 hover:text-white whitespace-nowrap">
+          6. Promociones
+        </button>
+        <button type="button" data-ptab="c7" class="ptab-btn px-3.5 py-2.5 text-xs font-semibold text-gray-400 hover:text-white whitespace-nowrap">
+          7. Rentabilidad
+        </button>
+      </div>
+
+      <form id="form-product" class="p-6 max-h-[75vh] overflow-y-auto">
+        
+        <!-- PESTAÑA 1: IDENTIFICACIÓN -->
+        <div id="ptab-c1" class="ptab-content space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Código del Producto (SKU) * [Obligatoria]</label>
+              <input type="text" id="prod-sku" required placeholder="Ej: LIC-001" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 font-mono">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Código de Barras * [Obligatoria]</label>
+              <input type="text" id="prod-codigo-barras" required placeholder="Ej: 5000267023650" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 font-mono">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Nombre del Producto * [Obligatoria]</label>
+              <input type="text" id="prod-nombre" required placeholder="Ej: Whisky Johnnie Walker Red Label" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 font-medium">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Marca * [Obligatoria]</label>
+              <input type="text" id="prod-marca" required placeholder="Ej: Johnnie Walker" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Categoría Principal * [Obligatoria]</label>
+              <select id="prod-categoria" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+                <option value="Whisky">Whisky</option>
+                <option value="Vino">Vino</option>
+                <option value="Cerveza">Cerveza</option>
+                <option value="Ginebra">Ginebra</option>
+                <option value="Tequila">Tequila & Mezcal</option>
+                <option value="Ron">Ron</option>
+                <option value="Vodka">Vodka</option>
+                <option value="Licores Dulces">Licores & Aperitivos</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Subcategoría [Opcional]</label>
+              <input type="text" id="prod-subcategoria" placeholder="Ej: Whisky escocés, Tinto Reserva Rioja, IPA..." class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 2: CARACTERÍSTICAS -->
+        <div id="ptab-c2" class="ptab-content hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Tipo de Bebida * [Obligatoria]</label>
+              <input type="text" id="prod-tipo-bebida" required placeholder="Ej: Whisky, Vino Tinto, Gin Premium" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Presentación * [Obligatoria]</label>
+              <select id="prod-presentacion" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+                <option value="Botella">Botella Individual</option>
+                <option value="Botella de Lujo">Botella de Lujo / Estuche</option>
+                <option value="Pack 6">Pack x 6</option>
+                <option value="Caja x 12">Caja x 12</option>
+                <option value="Barril">Barril</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Contenido * [Obligatoria]</label>
+              <input type="text" id="prod-contenido" required placeholder="Ej: 750 ml, 1000 ml, 330 ml" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Graduación Alcohólica (% ABV) * [Obligatoria]</label>
+              <input type="text" id="prod-graduacion" required placeholder="Ej: 40%, 14%, 6.5%" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-gray-300 mb-1">País de Origen [Opcional]</label>
+              <input type="text" id="prod-pais" placeholder="Ej: Escocia, España, México, Ecuador, Francia" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Descripción y Notas de Cata [Opcional]</label>
+              <textarea id="prod-descripcion" rows="3" placeholder="Ej: Whisky blended de perfil suave con notas ahumadas y especiadas..." class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 3: COMERCIALIZACIÓN -->
+        <div id="ptab-c3" class="ptab-content hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Precio de Venta (<span class="currency-symbol">€</span>) * [Obligatoria]</label>
+              <input type="number" id="prod-precio-venta" step="0.01" min="0" required placeholder="35.00" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 font-semibold">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Costo de Adquisición (<span class="currency-symbol">€</span>) * [Obligatoria]</label>
+              <input type="number" id="prod-costo" step="0.01" min="0" required placeholder="25.00" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 font-semibold">
+            </div>
+            
+            <!-- Calculadora en Tiempo Real de Margen -->
+            <div class="sm:col-span-2 p-3 bg-obsidian-950 rounded-xl border border-amber-500/30 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-gray-400">Margen Calculado en Vivo:</span>
+                <p id="live-margin-text" class="text-sm font-bold text-amber-400">Utilidad: €10.00 / 28.57% margen</p>
+              </div>
+              <span class="text-[10px] text-gray-500">Se calcula: Precio - Costo</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Precio Mayorista (<span class="currency-symbol">€</span>) [Opcional]</label>
+              <input type="number" id="prod-precio-mayorista" step="0.01" min="0" placeholder="31.00" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Precio Promocional (<span class="currency-symbol">€</span>) [Opcional]</label>
+              <input type="number" id="prod-precio-promocional" step="0.01" min="0" placeholder="32.99" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Proveedor * [Obligatoria]</label>
+              <input type="text" id="prod-proveedor" required placeholder="Ej: Distribuidor X" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Marca / Proveedor Principal * [Obligatoria]</label>
+              <input type="text" id="prod-marca-proveedor" required placeholder="Ej: Distribuidor autorizado" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 4: INVENTARIO -->
+        <div id="ptab-c4" class="ptab-content hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Stock Disponible * [Obligatoria]</label>
+              <input type="number" id="prod-stock-disponible" min="0" required placeholder="45" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 font-bold">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Stock Mínimo (Alerta) * [Obligatoria]</label>
+              <input type="number" id="prod-stock-minimo" min="0" required placeholder="10" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-rose-400 focus:outline-none focus:border-amber-500 font-bold">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Stock Máximo [Opcional]</label>
+              <input type="number" id="prod-stock-maximo" min="0" placeholder="100" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div class="sm:col-span-3">
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Ubicación en Bodega / Cava [Opcional]</label>
+              <input type="text" id="prod-ubicacion" placeholder="Ej: Bodega – Estante 3, Cava Principal, Vitrina VIP" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Fecha de Ingreso * [Obligatoria]</label>
+              <input type="date" id="prod-fecha-ingreso" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Lote [Opcional]</label>
+              <input type="text" id="prod-lote" placeholder="Ej: L-2026-045" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 5: VENTAS -->
+        <div id="ptab-c5" class="ptab-content hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Unidades Vendidas * [Obligatoria]</label>
+              <input type="number" id="prod-unidades-vendidas" min="0" required placeholder="120" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Ventas por Período (<span class="currency-symbol">€</span>) * [Obligatoria]</label>
+              <input type="number" id="prod-ventas-periodo" step="0.01" min="0" required placeholder="4200.00" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Frecuencia de Venta * [Obligatoria]</label>
+              <input type="text" id="prod-frecuencia" required placeholder="Ej: 15 unidades/semana" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Canal de Venta Habitual * [Obligatoria]</label>
+              <input type="text" id="prod-canal" required placeholder="Ej: Local / WhatsApp / delivery" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Ticket Promedio Asociado (<span class="currency-symbol">€</span>) [Opcional]</label>
+              <input type="number" id="prod-ticket-promedio" step="0.01" min="0" placeholder="48.00" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 6: PROMOCIONES -->
+        <div id="ptab-c6" class="ptab-content hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Promociones Aplicadas * [Obligatoria]</label>
+              <input type="text" id="prod-promociones" required placeholder="Ej: 10% de descuento, Pack 6x5" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Cupones Utilizados [Opcional]</label>
+              <input type="text" id="prod-cupones" placeholder="Ej: CUP-001" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Campañas Asociadas [Opcional]</label>
+              <input type="text" id="prod-campanas" placeholder="Ej: Campaña Día del Padre, Black Friday" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Resultado de Promoción * [Muy Importante]</label>
+              <input type="text" id="prod-resultado-promocion" required placeholder="Ej: +25% ventas" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTAÑA 7: RENTABILIDAD -->
+        <div id="ptab-c7" class="ptab-content hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Utilidad por Unidad (<span class="currency-symbol">€</span>) * [Obligatoria]</label>
+              <input type="number" id="prod-utilidad-unidad" step="0.01" required placeholder="10.00" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Margen Porcentual (%) * [Obligatoria]</label>
+              <input type="number" id="prod-margen-porcentual" step="0.01" required placeholder="28.57" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Rentabilidad por Producto (<span class="currency-symbol">€</span>/mes) * [Muy Importante]</label>
+              <input type="number" id="prod-rentabilidad-producto" step="0.01" required placeholder="1200.00" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Nivel de Rotación * [Muy Importante]</label>
+              <select id="prod-rotacion" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+                <option value="Alta">Alta Rotación</option>
+                <option value="Media">Media Rotación</option>
+                <option value="Baja">Baja Rotación (Licores Exclusivos / Colección)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-6 border-t border-subtle mt-4">
+          <div class="text-[11px] text-gray-400">
+            Navega por las 7 pestañas para completar o editar la ficha completa
+          </div>
+          <div class="flex items-center gap-3">
+            <button type="button" class="close-modal px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white bg-obsidian-800">
+              Cerrar
+            </button>
+            <button type="submit" class="gold-button px-5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2">
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span>Guardar Ficha del Licor</span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 3: GENERAR NUEVO PEDIDO (FORMULARIO DE PEDIDO DEL PDF)
+       ======================================================================== -->
+  <div id="modal-order" class="modal-overlay hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="modal-content bg-obsidian-900 border border-mega w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden my-6">
+      <div class="px-6 py-4 border-b border-subtle flex items-center justify-between bg-obsidian-850">
+        <div class="flex items-center gap-2.5">
+          <img src="assets/isotipo.png" alt="Mega" class="w-6 h-6 object-contain">
+          <div>
+            <h3 class="font-bold text-white text-base">Registrar Nuevo Pedido de Licores</h3>
+            <p class="text-[11px] text-gray-400">Formulario con canasta dinámica, descuentos e impuestos</p>
+          </div>
+        </div>
+        <button type="button" class="close-modal text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-order" class="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- ID Pedido -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">ID Pedido (Numérico)</label>
+            <input type="number" id="order-id" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white font-mono" readonly>
+          </div>
+          <!-- Fecha Pedido -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Fecha y Hora</label>
+            <input type="datetime-local" id="order-fecha" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white">
+          </div>
+          <!-- Cliente Referencia -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Cliente *</label>
+            <select id="order-cliente-select" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+              <!-- Se inyectan los clientes -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Tabla dinámica de productos del pedido -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
+              <i data-lucide="boxes" class="w-4 h-4 text-amber-400"></i>
+              Tabla de Productos del Pedido
+            </h4>
+            <button type="button" id="btn-add-order-item" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-obsidian-800 text-amber-400 hover:bg-obsidian-700 border border-amber-500/30 flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>Añadir Producto</span>
+            </button>
+          </div>
+
+          <div class="bg-obsidian-950 rounded-xl border border-subtle overflow-hidden">
+            <table class="w-full text-left crm-table text-xs">
+              <thead>
+                <tr>
+                  <th class="w-2/5">Producto / SKU</th>
+                  <th class="w-20">Cantidad</th>
+                  <th class="w-24">P. Unitario</th>
+                  <th class="w-20">Desc %</th>
+                  <th class="w-24">Total sin IVA</th>
+                  <th class="w-10"></th>
+                </tr>
+              </thead>
+              <tbody id="order-items-tbody">
+                <!-- Filas interactivas inyectadas dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Resumen de Totales y Condiciones de Venta -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Forma de Pago *</label>
+              <select id="order-forma-pago" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white">
+                <option value="Transferencia">Transferencia Bancaria</option>
+                <option value="Tarjeta">Tarjeta de Crédito / Débito</option>
+                <option value="Contado">Contado / Efectivo</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Estado del Pedido *</label>
+              <select id="order-estado" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white">
+                <option value="Pendiente">Pendiente de Preparación</option>
+                <option value="Enviado">Enviado / En Despacho</option>
+                <option value="Completo">Completo / Entregado</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1">Notas de Entrega</label>
+              <textarea id="order-notas-entrega" rows="2" placeholder="Ej: Entregar en horario matutino. Verificar sellos fiscales..." class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white"></textarea>
+            </div>
+          </div>
+
+          <!-- Caja de Totales Fiel al PDF -->
+          <div class="bg-obsidian-950 p-4 rounded-xl border border-subtle flex flex-col justify-between space-y-3">
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between text-gray-400">
+                <span>Total (sin IVA):</span>
+                <span id="order-subtotal-display" class="font-mono text-white font-semibold">€0.00</span>
+              </div>
+              <div class="flex justify-between text-gray-400">
+                <span>IVA (<span id="order-vat-rate-label">21%</span>):</span>
+                <span id="order-vat-amount-display" class="font-mono text-white">€0.00</span>
+              </div>
+              <div class="border-t border-subtle pt-2 flex justify-between items-baseline text-sm">
+                <span class="font-bold text-amber-400">Total con IVA:</span>
+                <span id="order-total-with-vat-display" class="font-bold font-mono text-lg text-white">€0.00</span>
+              </div>
+            </div>
+
+            <div class="pt-2 text-[11px] text-gray-500 italic">
+              Al guardar el pedido con estado "Completo" o "Enviado", se descuentan automáticamente las existencias del inventario.
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-subtle">
+          <button type="button" class="close-modal px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white bg-obsidian-800">
+            Cancelar
+          </button>
+          <button type="submit" class="gold-button px-5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Guardar y Procesar Pedido</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 4: COMPROBANTE / FACTURA DE PEDIDO IMPRIMIBLE
+       ======================================================================== -->
+  <div id="printable-receipt-modal" class="modal-overlay hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="modal-content bg-obsidian-900 border border-subtle w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden my-6">
+      
+      <!-- Barra de Acciones del Comprobante (Oculta en impresión) -->
+      <div class="px-6 py-3 border-b border-subtle flex items-center justify-between bg-obsidian-850 no-print">
+        <span class="text-xs font-semibold text-gray-300">Vista de Comprobante / Recibo</span>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="window.print()" class="mega-button px-3.5 py-1.5 rounded-lg text-xs flex items-center gap-1.5">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+            <span>Imprimir / PDF</span>
+          </button>
+          <button type="button" class="close-modal text-gray-400 hover:text-white p-1">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Papel del Recibo (Formateado para pantalla e impresora) -->
+      <div id="receipt-print-area" class="p-8 bg-obsidian-950 receipt-paper space-y-6 text-xs">
+        <!-- Encabezado Licorera -->
+        <div class="flex justify-between items-start border-b border-subtle pb-4">
+          <div class="space-y-1">
+            <img src="assets/logo.png" alt="LICORES MEGA" width="74" height="40" class="h-10 w-auto object-contain mb-2">
+            <p class="text-gray-400 text-[11px]">Distribuidora Mayorista / Minorista & Cava</p>
+            <p class="text-gray-500 text-[10px]">RUC: 1792348571001 · Tel: +593 98 765 4321</p>
+            <p class="text-gray-500 text-[10px]">Bodega Central & Despacho Inmediato</p>
+          </div>
+          <div class="text-right">
+            <span class="inline-block px-2.5 py-1 rounded bg-mega-500/15 border border-mega-500/30 text-[10px] uppercase font-bold text-mega-400 tracking-wider mb-1">Comprobante de Venta</span>
+            <p id="receipt-order-id" class="font-mono font-bold text-base text-white">#100045</p>
+            <p id="receipt-order-date" class="text-gray-400 text-[11px]">2026-09-01 10:15</p>
+            <p id="receipt-order-payment" class="text-gray-400 text-[11px]">Pago: Transferencia</p>
+          </div>
+        </div>
+
+        <!-- Info del Cliente -->
+        <div class="bg-obsidian-900/80 p-3 rounded-xl border border-subtle space-y-1">
+          <span class="text-[10px] uppercase text-gray-500 font-bold">Datos del Cliente</span>
+          <p id="receipt-client-name" class="font-bold text-white text-sm">Distribuidora La Luz S.A.</p>
+          <p id="receipt-client-nif" class="text-gray-400">NIF/CIF: B12345678</p>
+          <p id="receipt-client-address" class="text-gray-400">Dirección: Calle Falsa 123, Ciudad</p>
+          <p id="receipt-client-contact" class="text-gray-400">Contacto: Juan Gómez - 987654321</p>
+        </div>
+
+        <!-- Tabla de Productos del Recibo -->
+        <div>
+          <table class="w-full text-left crm-table text-xs">
+            <thead>
+              <tr>
+                <th>Producto / SKU</th>
+                <th class="text-center">Cant.</th>
+                <th class="text-right">P. Unit</th>
+                <th class="text-center">Desc %</th>
+                <th class="text-right">Total sin IVA</th>
+              </tr>
+            </thead>
+            <tbody id="receipt-items-tbody">
+              <!-- Se llena dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Desglose de Totales -->
+        <div class="flex justify-end pt-2">
+          <div class="w-64 space-y-1.5 text-xs">
+            <div class="flex justify-between text-gray-400">
+              <span>Total (sin IVA):</span>
+              <span id="receipt-subtotal" class="font-mono text-white font-semibold">€2.350,00</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>IVA (<span id="receipt-vat-rate">21%</span>):</span>
+              <span id="receipt-vat" class="font-mono text-white">€493,50</span>
+            </div>
+            <div class="border-t border-subtle pt-2 flex justify-between font-bold text-sm">
+              <span class="text-amber-400">TOTAL CON IVA:</span>
+              <span id="receipt-total" class="font-mono text-white text-base">€2.843,50</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notas de Entrega y Pie -->
+        <div class="border-t border-subtle pt-4 text-[10px] text-gray-400 space-y-1">
+          <p><strong>Notas de Entrega:</strong> <span id="receipt-delivery-notes">Entregar en horario matutino</span></p>
+          <p class="text-gray-500 text-center pt-2">¡Gracias por su preferencia! Prohibida la venta de bebidas alcohólicas a menores de 18 años.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 5: TICKET DE SOPORTE (FORMULARIO DEL PDF)
+       ======================================================================== -->
+  <div id="modal-ticket" class="modal-overlay hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="modal-content bg-obsidian-900 border border-mega w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden my-6">
+      <div class="px-6 py-4 border-b border-subtle flex items-center justify-between bg-obsidian-850">
+        <div class="flex items-center gap-2.5">
+          <img src="assets/isotipo.png" alt="Mega" class="w-6 h-6 object-contain">
+          <h3 id="modal-ticket-title" class="font-bold text-white text-base">Registrar Ticket de Soporte</h3>
+        </div>
+        <button type="button" class="close-modal text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-ticket" class="p-6 space-y-4">
+        <input type="hidden" id="ticket-form-id">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">ID Ticket</label>
+            <input type="number" id="ticket-id" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white font-mono" readonly>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Fecha / Hora</label>
+            <input type="datetime-local" id="ticket-fecha" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Cliente Asociado *</label>
+            <select id="ticket-cliente-select" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+              <!-- Clientes inyectados -->
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Asunto *</label>
+            <input type="text" id="ticket-asunto" required placeholder="Ej: Consulta sobre pedido #100045" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 font-medium">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Descripción del Caso</label>
+            <textarea id="ticket-descripcion" rows="3" required placeholder="Ej: Cliente pregunta cuándo llegará el pedido..." class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Estado</label>
+            <select id="ticket-estado" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white">
+              <option value="Abierto">Abierto</option>
+              <option value="En Proceso">En Proceso</option>
+              <option value="Cerrado">Cerrado</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Prioridad</label>
+            <select id="ticket-prioridad" required class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white">
+              <option value="Alta">Alta</option>
+              <option value="Media">Media</option>
+              <option value="Baja">Baja</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Asignado a (Agente / Técnico)</label>
+            <input type="text" id="ticket-asignado" placeholder="Ej: Soporte Técnico - Ana López" class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Resolución del Caso (Texto largo)</label>
+            <textarea id="ticket-resolucion" rows="2" placeholder="Ej: Se confirmó entrega para el 3/9 en horario matutino..." class="w-full px-3.5 py-2 bg-obsidian-950 border border-subtle rounded-xl text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-subtle">
+          <button type="button" class="close-modal px-4 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-white bg-obsidian-800">
+            Cancelar
+          </button>
+          <button type="submit" class="gold-button px-5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Guardar Ticket</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenedor para notificaciones Toast -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts de la Aplicación -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
